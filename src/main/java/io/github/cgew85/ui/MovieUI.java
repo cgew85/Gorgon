@@ -80,7 +80,7 @@ public class MovieUI extends VerticalLayout {
     }
 
     @SuppressWarnings("unchecked")
-    private void getClickListenerAdd(ClickEvent clickEvent) {
+    private void getClickListenerAdd(final ClickEvent clickEvent) {
         if (!textFieldName.isEmpty() && !comboBoxCut.isEmpty() && !comboBoxCasing.isEmpty() && !comboBoxFormat.isEmpty()) {
             val movie = new Movie();
             movie.setName(textFieldName.getValue().trim());
@@ -97,16 +97,12 @@ public class MovieUI extends VerticalLayout {
         }
     }
 
-    private void getSelectionListener(SelectionEvent selectionEvent) {
-        if (!selectionEvent.getAllSelectedItems().isEmpty()) {
-            buttonRemoveMovie.setEnabled(true);
-        } else {
-            buttonRemoveMovie.setEnabled(false);
-        }
+    private void getSelectionListener(final SelectionEvent selectionEvent) {
+        buttonRemoveMovie.setEnabled(!selectionEvent.getAllSelectedItems().isEmpty());
     }
 
     @SuppressWarnings("unchecked")
-    private void getClickListenerRemove(ClickEvent clickEvent) {
+    private void getClickListenerRemove(final ClickEvent clickEvent) {
         if (!grid.getSelectedItems().isEmpty()) {
             grid.getSelectedItems().stream().findFirst().ifPresent(movie -> {
                 movieService.deleteMovie((Movie) movie);
@@ -203,7 +199,7 @@ public class MovieUI extends VerticalLayout {
         return grid;
     }
 
-    private void getDoubleClickListener(ComponentEvent event) {
+    private void getDoubleClickListener(final ComponentEvent event) {
         ItemDoubleClickEvent itemDoubleClickEvent = (ItemDoubleClickEvent) event;
         final Movie movie = (Movie) itemDoubleClickEvent.getItem();
         OmdbItem omdbItem = movieService.getOmdbItemByNameAndYear(movie.getName(), String.valueOf(movie.getReleaseYear()));
